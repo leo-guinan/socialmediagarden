@@ -1,7 +1,7 @@
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
 import { User, GlobalRole, MembershipRole, Organization } from "db"
 
-type Role = MembershipRole | GlobalRole
+export type Role = MembershipRole | GlobalRole
 
 declare module "@blitzjs/auth" {
   export interface Session {
