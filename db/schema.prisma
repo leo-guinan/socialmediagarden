@@ -113,7 +113,7 @@ model Plan {
   id         Int @id @default(autoincrement())
   name       String
   price      Int
-  interval   Interval
-  stripePlanId String
+  interval   Interval?
+  stripePlanId String?
   organization Organization[]
 }

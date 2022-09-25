@@ -6,7 +6,7 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
 import { useMutation } from "@blitzjs/rpc"
-import { Routes, BlitzPage } from "@blitzjs/next"
+import { BlitzPage, Routes } from "@blitzjs/next"
 
 /*
  * This file is just for a pleasant getting started page for your new app.

@@ -13,8 +13,15 @@ export default resolver.pipe(resolver.zod(Signup), async ({ email, password, org
           organization: {
             create: {
               name: organizationName,
+              plan: {
+                connect: {
+                  //ID 1 is the free plan
+                  id: 1
+                }
+              }
             },
           },
+
         },
       },
     },
