@@ -13,7 +13,8 @@ export const password = z
 
 export const organizationName = z
   .string()
-  .transform((str) => str.trim())
+  .optional()
+  .transform((str) => str?.trim())
 
 export const Signup = z.object({
   email,

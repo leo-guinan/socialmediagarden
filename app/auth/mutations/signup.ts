@@ -12,7 +12,7 @@ export default resolver.pipe(resolver.zod(Signup), async ({ email, password, org
           role: "OWNER",
           organization: {
             create: {
-              name: organizationName,
+              name: organizationName ?? "Default Organization",
               plan: {
                 connect: {
                   //ID 1 is the free plan

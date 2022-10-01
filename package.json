@@ -30,6 +30,7 @@
     "@headlessui/react": "1.7.2",
     "@heroicons/react": "2.0.11",
     "@prisma/client": "4.0.0",
+    "@stripe/stripe-js": "1.38.1",
     "autoprefixer": "10",
     "blitz": "2.0.0-beta.3",
     "envsafe": "2.0.3",

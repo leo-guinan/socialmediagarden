@@ -10,6 +10,7 @@ export default async function checkoutSession(req: NextApiRequest, res: NextApiR
       throw new Error("only one sessionId parameter allowed")
     }
     const session = await stripe.checkout.sessions.retrieve(sessionId)
+
     res.send(session)
   } catch (e) {
     res.status(400)
