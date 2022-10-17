@@ -49,9 +49,13 @@ export type Feed = {
 
 export default async function getFeedsForGarden({ gardenId }: GetFeedsForGardenInput, _: Ctx): Promise<Feed[]> {
 
+  console.log("Getting feeds for garden: " + gardenId)
+
   const garden = await db.garden.findFirst({
     where: { id: gardenId }
   })
+
+  console.log("Garden: " + garden)
 
   if (!garden) return []
 
