@@ -11,6 +11,18 @@ export default async function addGardenForUser(
   ctx: Ctx
 ) {
   ctx.session.$authorize()
+  const org = await db.organization.findFirst({
+    where: {
+      membership: {
+        some: {
+          userId
+        }
+      }
+    }
+  });
+  if (!org) {
+    throw new Error("User not found")
+  }
   const garden = await db.garden.upsert({
     where: {
       slug
@@ -18,7 +30,7 @@ export default async function addGardenForUser(
     create: {
       slug,
       owner: {
-        connect: { id: userId }
+        connect: { id: org.id }
       },
       public: true
     },
