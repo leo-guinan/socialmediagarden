@@ -60,7 +60,7 @@ export default async function addFeedToAccount(
       analysisURL,
       {
         client_account_id: user.clientAccountId,
-        feed_url: feed,
+        feed_url: feedUrl,
         // type: feedType
       },
       {

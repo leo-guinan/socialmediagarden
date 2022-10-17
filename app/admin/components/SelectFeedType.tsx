@@ -15,11 +15,11 @@ const SelectFeedType = ({selected, setSelected, feedTypes}) => {
       case "YouTube":
         return (<VideoCameraIcon className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
       case "Podcast":
-        return (<BookOpenIcon className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
+        return (<RadioIcon className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
       case "Video":
         return (<VideoCameraIcon className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
       case "Blog":
-        return (<RadioIcon className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
+        return (<BookOpenIcon className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
       default:
         return (<BookOpenIcon className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
     }
