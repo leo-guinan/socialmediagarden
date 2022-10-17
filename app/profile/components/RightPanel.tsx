@@ -1,13 +1,14 @@
 import SocialGarden from "./Social Garden"
 import Content from "./Content"
 
-const RightPanel = () => {
+const RightPanel = ({ garden }) => {
   return (
     <>
-      <Content />
+      <Content garden={garden} />
 
-
-      <SocialGarden />
+      {garden?.slug === "tshubillabong" && (
+        <SocialGarden />
+      )}
     </>
 
   )

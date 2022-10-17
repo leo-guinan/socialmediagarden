@@ -19,11 +19,15 @@ model User {
   name           String?
   email          String   @unique
   hashedPassword String?
+  avatar         String?
   role           GlobalRole
-
+  clientAccountId Int?
   memberships Membership[]
   tokens   Token[]
   sessions Session[]
+  savedFeeds     Feed[]
+  readContent   Content[] @relation("ReadContent")
+  savedContent Content[] @relation("SavedContent")
 }
 
 model Session {
@@ -72,6 +76,7 @@ model Organization {
   plan Plan @relation(fields: [planId], references: [id])
   planId Int
   membership Membership[]
+  gardens Garden[]
 }
 
 model Membership {
@@ -117,3 +122,57 @@ model Plan {
   stripePlanId String?
   organization Organization[]
 }
+
+model Garden {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  slug        String   @unique
+  owner       Organization     @relation(fields: [ownerId], references: [id])
+  ownerId     Int
+  name        String       @default("My Garden")
+  public      Boolean
+  image       String?
+  featuredContent Content? @relation(fields: [featuredContentId], references: [id])
+  featuredContentId Int?
+  feeds       Feed[]
+}
+
+model Feed {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  feed        String   @unique
+  type        FeedType @default(YOUTUBE)
+  savedBy     User[]
+  content     Content[]
+  backendFeedId Int?
+  gardens     Garden[]
+}
+
+model Content {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String?
+  description String?
+  link        String
+  image       String?
+  feed        Feed?     @relation(fields: [feedId], references: [id])
+  feedId      Int?
+  backendContentId Int?
+  readBy      User[]   @relation("ReadContent")
+  savedBy     User[]   @relation("SavedContent")
+  featuredIn  Garden[]
+}
+
+
+
+
+enum FeedType {
+  BLOG
+  YOUTUBE
+  VIDEO
+  PODCAST
+}
+

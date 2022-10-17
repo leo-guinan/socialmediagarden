@@ -10,7 +10,7 @@ const ProfilePage: BlitzPage = () => {
     <Layout title="Home">
       <div className="container mx-auto">
         <Suspense fallback="Loading...">
-          <Profile />
+          <Profile slug="tshubillabong" />
         </Suspense>
       </div>
     </Layout>

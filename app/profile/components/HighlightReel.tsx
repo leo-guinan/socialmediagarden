@@ -1,4 +1,28 @@
-const HighlightReel = () => {
+import { Content } from "db"
+import { useEffect, useRef } from "react"
+
+type HighlightReelProps = {
+  featuredContent: Content
+}
+
+
+const HighlightReel = ({featuredContent}: HighlightReelProps) => {
+
+  const embedLink = useRef("")
+
+  useEffect(() => {
+    if (featuredContent?.link?.indexOf("embed") === -1 ) {
+      embedLink.current = featuredContent?.link?.replace(/(.*?)watch\?v=(.*?)&.*/, "$1embed/$2")
+    } else {
+      embedLink.current = featuredContent?.link
+    }
+
+    console.log(embedLink.current)
+
+  })
+
+
+
   return (
     <section aria-labelledby="applicant-information-title">
       <div className="bg-white shadow sm:rounded-lg">
@@ -10,10 +34,13 @@ const HighlightReel = () => {
         </div>
         <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
           <div className="aspect-w-16 aspect-h-9">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/PQiEW8slvOo"
-                    title="YouTube video player" frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen></iframe>
+            {embedLink.current && (
+              <iframe width="560" height="315" src={embedLink.current}
+                      title="YouTube video player" frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen></iframe>
+            )}
+
           </div>
         </div>
         <div>

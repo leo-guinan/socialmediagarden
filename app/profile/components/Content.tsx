@@ -1,7 +1,21 @@
 import { ContentTypes } from "../../types"
 import { classNames } from "../../utils"
+import { useQuery } from "@blitzjs/rpc"
+import getFeedsForUser, { Feed } from "../queries/getFeedsForUser"
+import { SVGProps, useEffect } from "react"
+import { BookOpenIcon, RadioIcon, VideoCameraIcon } from "@heroicons/react/20/solid"
+import getFeedsForGarden from "../queries/getFeedsForGarden"
 
-const Content = () => {
+const Content = ({garden}) => {
+
+  const [feeds] = useQuery(getFeedsForGarden, { gardenId: garden.id }, {
+    suspense: true,
+  })
+
+
+  useEffect(() => {
+    console.log(feeds)
+  }, [feeds])
 
   const content = [
     {
@@ -123,6 +137,36 @@ const Content = () => {
     }
   ]
 
+  type ContentType = {
+    icon: (props: SVGProps<SVGSVGElement>) => JSX.Element,
+    bgColorClass: string
+  }
+
+
+  // const TypeIcon = ({icon}) => {
+  //   return() <`${icon}` />)
+  // }
+
+  const mapTypeToObject = (type: string) => {
+    //  podcast: { icon: RadioIcon, bgColorClass: 'bg-gray-400' },
+    //   youtube: { icon: VideoCameraIcon, bgColorClass: 'bg-blue-500' },
+    //   blog: { icon: BookOpenIcon, bgColorClass: 'bg-green-500' },
+    //   default: { icon: BookOpenIcon, bgColorClass: 'bg-gray-400' },
+    switch (type) {
+      case "YT":
+        return (<VideoCameraIcon  className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
+      case "BL":
+        return (<BookOpenIcon  className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
+      case "VD":
+        return (<VideoCameraIcon  className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
+      case "PC":
+        return (<RadioIcon  className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
+      default:
+        return (<BookOpenIcon  className="h-5 w-5 text-white bg-blue-500" aria-hidden="true" />)
+    }
+  }
+
+
 
   return (
     <>
@@ -135,39 +179,42 @@ const Content = () => {
           {/* Activity Feed */}
           <div className="mt-6 flow-root pb-6">
             <ul role="list" className="-mb-8">
-              {content.map((item, itemIdx) => (
-                <li key={itemIdx}>
-                  <div className="relative pb-8">
-                    {itemIdx !== timeline.length - 1 ? (
-                      <span
-                        className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                        aria-hidden="true"
-                      />
-                    ) : null}
-                    <div className="flex space-x-3">
+              {feeds.map((feed) => (
+                <>
+                {feed.content.map((item, itemIdx) => (
+                    <li key={itemIdx}>
+                      <div className="relative pb-8">
+                        {itemIdx !== timeline.length - 1 ? (
+                          <span
+                            className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+                            aria-hidden="true"
+                          />
+                        ) : null}
+                        <div className="flex space-x-3">
                   <span
-                    className={classNames(
-                      item.type.bgColorClass,
-                      "h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white"
-                    )}
+                    className="bg-blue-500 h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white"
+
                   >
-                    <item.type.icon className="h-5 w-5 text-white" aria-hidden="true" />
+                    {mapTypeToObject(item.type)}
                   </span>
-                      <div className="flex-1 space-y-1">
-                        <div className="flex items-center justify-between">
-                          <h3 className="text-sm font-medium">
-                            < a href={item.link} target="_blank" rel="noreferrer">{item.title}</a>
-                          </h3>
-                          <p className="text-sm text-gray-500">{item.published}</p>
+                          <div className="flex-1 space-y-1">
+                            <div className="flex items-center justify-between">
+                              <h3 className="text-sm font-medium">
+                                < a href={item.url} target="_blank" rel="noreferrer">{item.title}</a>
+                              </h3>
+                              <p className="text-sm text-gray-500">{item.published}</p>
+                            </div>
+                            <p className="text-sm text-gray-500">
+                              {item.summary}
+                            </p>
+                          </div>
                         </div>
-                        <p className="text-sm text-gray-500">
-                          {item.summary}
-                        </p>
                       </div>
-                    </div>
-                  </div>
-                </li>
-              ))}
+                    </li>
+                  ))}
+                </>
+                ))}
+
             </ul>
           </div>
         </div>
