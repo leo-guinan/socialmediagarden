@@ -68,7 +68,7 @@ export default async function getFeedsForGarden({ gardenId }: GetFeedsForGardenI
       }
     }
   })
-  const feedIds = feeds.map(feed => feed.id)
+  const feedIds = feeds.map(feed => feed.backendFeedId)
 
   const analysisURL = process.env.API_URL + "/api/garden/feeds/"
   let error = null
