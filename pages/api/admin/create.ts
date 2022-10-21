@@ -18,6 +18,36 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     const { email } = JSON.parse(req.body)
 
+    const newUser = await db.user.upsert({
+      where: {
+        email
+      },
+      create: {
+        email: email.toLowerCase().trim(),
+        role: GlobalRole.CUSTOMER,
+        memberships: {
+          create: {
+            role: "OWNER",
+            organization: {
+              create: {
+                name: "Default Organization",
+                plan: {
+                  connect: {
+                    //ID 1 is the free plan
+                    id: 1
+                  }
+                }
+              },
+            },
+
+          },
+        },
+
+      },
+      update: {},
+    })
+
+
     const analysisURL = process.env.API_URL + "/api/client/email_login/"
     let error = null
     await axios
