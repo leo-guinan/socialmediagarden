@@ -1,5 +1,5 @@
 import { Ctx } from "blitz"
-import db from "db"
+import db, {Feed} from "db"
 import axios from "axios"
 import { SVGProps } from "react"
 
@@ -40,14 +40,18 @@ type Content = {
   type: string,
 }
 
-export type Feed = {
+export type FeedData = {
   id: number,
-  source: ContentSource,
-  owner: ClientAccount,
-  content: Content[],
+  frontendFeed: Feed,
+  backendFeed: {
+    source: ContentSource,
+    owner: ClientAccount,
+    content: Content[],
+  }
+
 }
 
-export default async function getFeedsForGarden({ gardenId }: GetFeedsForGardenInput, _: Ctx): Promise<Feed[]> {
+export default async function getFeedsForGarden({ gardenId }: GetFeedsForGardenInput, _: Ctx): Promise<FeedData[]> {
 
   console.log("Getting feeds for garden: " + gardenId)
 
@@ -72,7 +76,7 @@ export default async function getFeedsForGarden({ gardenId }: GetFeedsForGardenI
 
   const analysisURL = process.env.API_URL + "/api/garden/feeds/"
   let error = null
-  let feedsToReturn: Feed[] = []
+  let feedsToReturn: FeedData[] = []
   await axios
     .post(
       analysisURL,
@@ -87,7 +91,15 @@ export default async function getFeedsForGarden({ gardenId }: GetFeedsForGardenI
       }
     )
     .then(async ({ data }) => {
-      feedsToReturn = data.feeds
+      feedsToReturn = feeds.map((feed) => {
+        console.log(data)
+        return  {
+          id: feed.id,
+          frontendFeed: feed,
+          backendFeed: data.feeds.find((backendFeed) => backendFeed.id === feed.backendFeedId)
+        }
+      })
+
     })
     .catch((err) => {
       console.log(err)

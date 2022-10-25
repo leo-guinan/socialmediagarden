@@ -1,10 +1,10 @@
 import SocialGarden from "./Social Garden"
-import Content from "./Content"
+import GardenContent from "./GardenContent"
 
 const RightPanel = ({ garden }) => {
   return (
     <>
-      <Content garden={garden} />
+      <GardenContent garden={garden} />
 
       {garden?.slug === "tshubillabong" && (
         <SocialGarden />

@@ -6,7 +6,7 @@ import { SVGProps, useEffect } from "react"
 import { BookOpenIcon, RadioIcon, VideoCameraIcon } from "@heroicons/react/20/solid"
 import getFeedsForGarden from "../queries/getFeedsForGarden"
 
-const Content = ({garden}) => {
+const GardenContent = ({garden}) => {
 
   const [feeds] = useQuery(getFeedsForGarden, { gardenId: garden.id }, {
     suspense: true,
@@ -181,7 +181,7 @@ const Content = ({garden}) => {
             <ul role="list" className="-mb-8">
               {feeds.map((feed) => (
                 <>
-                {feed.content.map((item, itemIdx) => (
+                {feed.backendFeed.content.map((item, itemIdx) => (
                     <li key={itemIdx}>
                       <div className="relative pb-8">
                         {itemIdx !== timeline.length - 1 ? (
@@ -223,4 +223,4 @@ const Content = ({garden}) => {
   )
 }
 
-export default Content
+export default GardenContent

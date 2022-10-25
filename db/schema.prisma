@@ -164,6 +164,8 @@ model Content {
   readBy      User[]   @relation("ReadContent")
   savedBy     User[]   @relation("SavedContent")
   featuredIn  Garden[]
+
+  @@unique([feedId, backendContentId], name: "feed_content")
 }
 
 
